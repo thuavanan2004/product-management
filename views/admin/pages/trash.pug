@@ -1,0 +1,107 @@
+extends ../layout/default.pug
+include ../mixins/filter.pug
+include ../mixins/search.pug
+include ../mixins/pagination.pug
+
+block main 
+    h1 Trang danh sách sản phẩm
+
+    .card.mb-3
+    .card-header Bộ lọc và Tìm kiếm
+    .card-body
+        .row 
+            .col-6
+                +filter(filterStatus)
+            .col-6 
+                +search(keyword)
+
+    .card.mb-3
+      .card-header Danh sách
+      .card-body
+      .row 
+        .col-6
+          form(
+            action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+            method="POST"
+            form-change-multi
+          ) 
+            .d-flex.align-items-start
+              .form-group
+                select(name="type" class="form-control")
+                    option(value="active") Hoạt động
+                    option(value="inactive") Dừng hoạt động
+              .form-group.d-none
+                input(
+                    type="text"
+                    name="ids"
+                    value=""
+                    class="form-control"
+                )
+              button(type="submit" class="btn btn-primary") Áp dụng
+              
+      table(
+        class="table table-hover table-sm"
+        checkbox-multi  
+      )
+        thead 
+            tr
+                td 
+                    input(type="checkbox" name="checkall")
+                th STT 
+                th Hình ảnh
+                th Tiêu đề
+                th Giá
+                th Trạng thái
+                th Hành động    
+        tbody 
+          each item, index in products
+            tr 
+              td 
+                input(type="checkbox" name="id" value=item.id)
+              td #{index + 1}    
+              td.image 
+                img(src=`${item.thumbnail}` alt=`${item.title}` )
+              td #{item.title}
+              td #{item.price}
+              td
+                if(item.status == "active")
+                  a(
+                    href="javascript:;"
+                    button-change-status 
+                    data-id=item.id 
+                    data-status="inactive"
+                    class="badge badge-success"
+                  ) Hoạt động
+                else
+                  a(
+                      href="javascript:;"
+                      button-change-status 
+                      data-id=item.id 
+                      data-status="active"
+                      class="badge badge-danger"
+                  ) Dừng hoạt động
+              td
+                button(
+                  class="btn btn-warning btn-sm"
+                  button-recall
+                  data-id = item.id
+                ) Thu hồi 
+                button(
+                  class="btn btn-danger btn-sm ml-1"
+                  button-remove 
+                  data-id = item.id
+                ) Xóa vĩnh viễn
+
+    +pagination(objectPagination)
+    form(
+        form-remove
+        method="POST"
+        action=""
+        data-path="/admin/products/remove"
+    )  
+    form(
+      form-recall 
+      method="POST"
+      action=""
+      data-path="/admin/products/recall"
+    )

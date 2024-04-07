@@ -1,0 +1,153 @@
+/* Header */
+
+.header {
+    background-color: #202020;
+    padding: 30px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.header .inner-logo {
+    font-weight: 900;
+    font-size: 30px;
+    margin-left: 30px;
+}
+
+.header .inner-logo a:hover {
+    color: aliceblue;
+    text-decoration: none;
+}
+
+/* End Header */
+body {
+    background-color: #fff;
+}
+/* Sider */
+
+.sider {
+    width: 150px;
+    background: #323232;
+    color: #fff;
+    height: calc(100vh - 60px);
+    position: fixed;
+    top: 104px;
+    left: 0;
+}
+
+.sider .inner-menu ul {
+    list-style-type: none;
+    margin-top: 20px;
+    font-size: 18px;
+}
+.sider .inner-menu ul li {
+    margin-bottom: 5px;
+    margin-left: 0;
+    font-weight: 500;
+}
+.sider .inner-menu ul li a:hover {
+    color: #fff;
+
+    text-decoration: none;
+}
+
+/* End Sider */
+
+/* Main */
+body .main {
+    margin: 15px;
+    position: relative;
+    left: 150px;
+    width: calc(100% - 180px);
+  }
+/* End Main */
+
+/* Product */
+ .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    background: #F0F0F0;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+.table {
+    background-color: #fff;
+}
+/* .table td img {
+    width: 250px;
+    height: 150px;
+    object-fit: cover;
+} */
+.table .image {
+    width: 250px; 
+    height: 200px;
+    border-bottom: 1px solid #ddd;
+}
+.table .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* End Product */
+#form-search {
+    display: flex;
+    flex-wrap: nowrap;
+    border: solid 1px #ddd;
+    margin-bottom: 5px;
+}
+/* Show Alert */
+[show-alert] {
+    position: fixed;
+    top: 110px;
+    right: 15px;
+    z-index: 9999;
+  }
+  
+  [show-alert].alert-hidden {
+    animation-name: alert-hidden;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+  }
+  
+  @keyframes alert-hidden {
+    from {
+      right: 15px;
+    }
+    to {
+      right: -100%;
+      display: none;
+    }
+  }
+/* End Show Alert */
+/* image-preview */
+.image-preview {
+    width: 150px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.image-preview[src=""] {
+    display: none;
+}
+/* End image-preview */
