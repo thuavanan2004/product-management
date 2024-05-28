@@ -5,8 +5,8 @@ module.exports.createPost = (req, res, next) => {
         return;
     }
 
-    if(req.body.title.length <  5) {
-        req.flash("error", "Vui lòng nhập ít nhất 5 ký tự!");
+    if(req.body.title.length <  4) {
+        req.flash("error", "Vui lòng nhập ít nhất 4 ký tự!");
         res.redirect("back");
         return;
     }

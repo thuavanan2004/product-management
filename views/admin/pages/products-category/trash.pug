@@ -1,0 +1,136 @@
+extends ../../layout/default.pug 
+include ../../mixins/alert
+include ../../mixins/filter 
+include ../../mixins/search 
+include ../../mixins/search 
+include ../../mixins/alert
+include ../../mixins/pagination
+
+
+
+block main 
+    +alert-success()
+    +alert-error()
+    if(role.permissions.includes("products-category_edit"))         
+
+        .row
+            .col-lg-8.col-12
+                .card.mb-3.box-item
+                    .card-header Bộ lọc và Tìm kiếm
+                    .card-body
+                        .row 
+                            .col-7
+                                //- +filter(filterStatus)
+                            .col-5 
+                                +search(keyword)
+            .col-lg-4.col-12
+                .card.mb-3.box-item
+                    .card-header Sắp xếp
+                    .card-body
+                        .row
+                            .col-12
+                                div(sort class="filter-sort d-flex")
+                                    select(
+                                        class="form-control"
+                                        name="sort"
+                                        sort-select
+                                    )
+                                        option(value="position-desc") Vị trí giảm dần
+                                        option(value="position-asc") Vị trí tăng dần
+                                        option(value="price-desc") Giá giảm dần
+                                        option(value="price-asc") Giá tăng dần
+                                        option(value="title-asc") Tiêu đề A - Z
+                                        option(value="title-desc") Tiêu đề Z - A
+                                    button(
+                                        class="btn btn-clear"
+                                        sort-clear
+                                    ) Clear
+                        
+        .card.mb-3.box-item
+            .card-header Danh sách
+            .card-body
+                .row 
+                    .col-6
+                        form(
+                            action=`${prefixAdmin}/products-category/change-multi?_method=PATCH`
+                            method="POST"
+                            form-change-multi
+                        ) 
+                            .d-flex.align-items-start
+                                .form-group
+                                    select(name="type" class="form-control")
+                                        option(value="remove-all") Xóa tất cả
+                                        option(value="recall-all") Khôi phục tất cả
+                                .form-group.d-none
+                                    input(
+                                        type="text"
+                                        name="ids"
+                                        value=""
+                                        class="form-control"
+                                    )
+                                button(type="submit" class="btn btn-apply") Áp dụng
+
+            table(
+                class="table table-hover table-sm"
+                checkbox-multi  
+            )
+                thead 
+                    tr
+                        th 
+                            input(type="checkbox" name="checkall")
+                        th STT 
+                        th Hình ảnh
+                        th Tiêu đề
+                        th Xóa bởi
+                        th Hành động    
+                tbody 
+                    each item, index in records
+                        tr 
+                            td 
+                                input(type="checkbox" name="id" value=item.id)
+                            td #{index + 1}    
+                            td.image 
+                                a(
+                                href=`${prefixAdmin}/products/detail/${item.id}`
+                                )
+                                img(src=`${item.thumbnail}` alt=`${item.title}` )     
+                            td 
+                                a(
+                                href=`${prefixAdmin}/products/detail/${item.id}`
+                                ) #{item.title}
+                            td 
+                                div #{item.deletedBy}
+                                div #{moment(item.deletedAt).format("DD/MM/YY HH:mm")}
+                            td
+                                if(role.permissions.includes("products-category_edit"))    
+                                    a(
+                                        data-id=item.id 
+                                        button-recall
+                                        class="btn btn-warning btn-sm"
+                                    ) Thu hồi
+                                if(role.permissions.includes("products-category_delete"))   
+                                    a(
+                                        class="btn btn-danger btn-sm ml-1"
+                                        button-remove 
+                                        data-id=item.id
+                                    ) Xóa vĩnh viễn
+
+        +pagination(objectPagination)
+                        
+        form(
+            method="POST"
+            form-remove
+            action=""
+            data-path=`${prefixAdmin}/products-category/remove`    
+        )
+        form(
+            method="POST"
+            form-recall 
+            action=""
+            data-path=`${prefixAdmin}/products-category/recall`  
+        )
+    else 
+        h2 Bạn không có quyền truy cập vào trang này
+    
+
+

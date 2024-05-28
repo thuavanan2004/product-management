@@ -1,7 +1,51 @@
 .sider 
-    .inner-menu 
-        ul 
-            li 
+    .sider-header
+        a(href=`${prefixAdmin}/dashboard`) DEVDYNAMO
+    
+    hr.horizontal.dark.mt-0
+    div(class="sider-main" sider) 
+        ul
+            li(dashboard) 
+                .icon-sider
+                    i( class="fa-brands fa-microsoft")
                 a(href=`${prefixAdmin}/dashboard`) Tổng quan
-            li 
-                a(href=`${prefixAdmin}/products`) Sản phẩm
+            if(role.permissions.includes("products_view")) 
+                li(products)
+                    .icon-sider
+                        i(class="fa-solid fa-box-open")
+                    a(href=`${prefixAdmin}/products`) Sản phẩm
+            if(role.permissions.includes("products-category_view"))         
+                li(products-category) 
+                    .icon-sider
+                        i(class="fa-solid fa-layer-group")
+                    a(href=`${prefixAdmin}/products-category`) Danh mục 
+            if(role.permissions.includes("blogs_view"))         
+                li(products-category) 
+                    .icon-sider
+                        i(class="fa-solid fa-blog")
+                    a(href=`${prefixAdmin}/blogs`) Blog 
+            if(role.permissions.includes("order-management_view")) 
+                li(order-management)
+                    .icon-sider
+                        i(class="fa-solid fa-cart-shopping") 
+                    a(href=`${prefixAdmin}/order-management`) Đơn hàng
+            if(role.permissions.includes("roles_view")) 
+                li(roles) 
+                    .icon-sider
+                        i(class="fa-solid fa-user-gear")
+                    a(href=`${prefixAdmin}/roles`) Nhóm quyền
+            if(role.permissions.includes("roles_permissions")) 
+                li(permissions)
+                    .icon-sider
+                        i(class="fa-solid fa-building-user") 
+                    a(href=`${prefixAdmin}/roles/permissions`) Phân quyền
+            if(role.permissions.includes("accounts_view")) 
+                li(accounts)
+                    .icon-sider
+                        i(class="fa-solid fa-box-open") 
+                    a(href=`${prefixAdmin}/accounts`) Tài khoản
+            if(role.permissions.includes("setting-general_view")) 
+                li(accounts)
+                    .icon-sider
+                        i(class="fa-solid fa-gear")
+                    a(href=`${prefixAdmin}/settings/general`) Cài đặt

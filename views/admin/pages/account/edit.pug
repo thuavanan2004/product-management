@@ -1,0 +1,114 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+
+block main
+    if(role.permissions.includes("accounts_edit")) 
+
+        h1(class="mb-4") Chỉnh sửa thông tin tài khoản
+        
+        +alert-error()
+        +alert-success()
+
+        form(
+            action=`${prefixAdmin}/accounts/edit/${records.id}?_method=PATCH`
+            method="POST"
+            enctype="multipart/form-data"
+        )
+            div(class="form-group")
+                label(for="fullName") Họ và tên
+                input(
+                    type="text"
+                    class="form-control"
+                    id="fullName"
+                    name="fullName"
+                    required
+                    value=records.fullName
+                )
+            div(class="form-group")
+                label(for="email") Email
+                input(
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    required
+                    value=records.email
+                )
+            div(class="form-group")
+                label(for="password") Mật khẩu
+                input(
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    required
+                )
+            div(class="form-group")
+                label(for="phone") Số điện thoại
+                input(
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    name="phone"
+                    required
+                    value=records.phone
+                )
+            div(
+                class="form-group"
+                upload-image
+            )
+                label(for="avatar") Avatar
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/*"
+                    upload-image-input
+                )
+                img(
+                    src=records.avatar
+                    class="image-preview"
+                    upload-image-preview
+                )
+            div(class="form-group")
+                label(for="role_id") Danh mục cha
+                select(
+                    class="form-control"
+                    id="role_id"
+                    name="role_id"
+                )
+                    each role in roles
+                        option(value=role.id selected=(role.id == records.role_id ? true : false)) #{role.title} 
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked = (records.status ==="active" ? true : false)
+                )
+                label(for="statusActive" class="form-check-label") Hoạt động
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInActive"
+                    name="status"
+                    value="inactive"
+                    checked = (records.status ==="inactive" ? true : false)
+                )
+                label(for="statusInActive" class="form-check-label") Dừng hoạt động
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Cập nhật
+    else 
+        h2 Bạn không có quyền truy cập vào trang này
+
+    
+
+

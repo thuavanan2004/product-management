@@ -1,0 +1,141 @@
+extends ../../layout/default.pug 
+block main 
+    .page-dashboard 
+        .row 
+            .col-xl-3.col-sm-6.mb-4
+                .card 
+                    .card-body 
+                        .row 
+                            .col-8 
+                                .numbers 
+                                    p.card-title Doanh thu 
+                                    h5
+                                        .card-info $53,000
+                                        span.text-danger -5%
+                            .col-4 
+                                .icon-card 
+                                    i(class="fa-solid fa-credit-card")
+
+            .col-xl-3.col-sm-6.mb-4 
+                .card 
+                    .card-body 
+                        .row 
+                            .col-8 
+                                .numbers 
+                                    p.card-title Sản phẩm 
+                                    h5
+                                        .card-info 3,000
+                                        span.text-success +5%
+                            .col-4 
+                                .icon-card
+                                    i(class="fa-solid fa-store")
+            .col-xl-3.col-sm-6.mb-4 
+                .card 
+                    .card-body 
+                        .row 
+                            .col-8 
+                                .numbers 
+                                    p.card-title Danh mục 
+                                    h5
+                                        .card-info 300
+                                        span.text-success +5%
+                            .col-4 
+                                .icon-card 
+                                    i(class="fa-solid fa-layer-group")
+            .col-xl-3.col-sm-6.mb-4  
+                .card 
+                    .card-body 
+                        .row 
+                            .col-8 
+                                .numbers 
+                                    p.card-title Bài viết
+                                    h5
+                                        .card-info 20
+                                        span.text-danger -2%
+                            .col-4 
+                                .icon-card  
+                                    i(class="fa-solid fa-blog")
+        .row.mt-4
+            .col-xl-8.col-12
+                .card 
+                    .card-body 
+                        .chart-order
+                            canvas(id="chart-multiline")
+            .col-xl-4.col-12
+                .card.list-product 
+                    .card-header.pb-0.row
+                        .col-10.head
+                            p.title Sản phẩm bán chạy 
+                        span.col-2.text-end
+                            i(class="fa-solid fa-ellipsis-vertical")
+                    .card-body 
+                        table.table
+                            thead
+                                tr
+                                    th() Tên sản phẩm
+                                    th() Lượt mua
+                                    th() Doanh số
+                            tbody
+                                tr
+                                    td(class="inner-product")
+                                        .inner-image 
+                                            img(src="/uploads/1712399442453th.jpg", alt="")
+                                        p Iphone 15 Promax
+                                    td 200
+                                    td $6000
+                                tr
+                                    td(class="inner-product") 
+                                        .inner-image 
+                                            img(src="/uploads/1712399442453th.jpg", alt="")
+                                        p Iphone 14 Pro
+                                    td 600
+                                    td $3000
+                                tr
+                                    td(class="inner-product") 
+                                        .inner-image 
+                                            img(src="/uploads/1712399442453th.jpg", alt="")
+                                        p Iphone 13
+                                    td 400
+                                    td $5000
+                                tr
+                                    td(class="inner-product") 
+                                        .inner-image 
+                                            img(src="/uploads/1712399442453th.jpg", alt="")
+                                        p Iphone 13
+                                    td 400
+                                    td $5000
+                                tr
+                                    td(class="inner-product") 
+                                        .inner-image 
+                                            img(src="/uploads/1712399442453th.jpg", alt="")
+                                        p Iphone 13
+                                    td 400
+                                    td $5000
+                                tr
+                                    td(class="inner-product") 
+                                        .inner-image 
+                                            img(src="/uploads/1712399442453th.jpg", alt="")
+                                        p Iphone 13
+                                    td 400
+                                    td $5000
+                                   
+            
+            
+        .row.mt-4
+            .col-lg-6.col-12
+                .card-right
+                    .card 
+                        .card-backgroud
+                        .card-body 
+                            .title Work with the rockets
+                            .desc Wealth creation is an evolutionarily recent positive-sum game. It is all about who take the opportunity first.     
+            .col-lg-6.col-12
+                .card 
+                    .card-body 
+                        .chart-list               
+                            canvas(id="chart-order")
+ 
+        div 
+
+                                    
+           

@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+/* ========VARIABLES CSS========= */
+
+:root {
+    --header-height: 3rem;
+
+    /* ===COLOR=== */
+
+    --main-color: #c20d5a;
+    --body-color:  #F8F9FA;
+    --second-color: rgb(7, 3, 45);
+    --main-gradient: linear-gradient(121deg, rgba(194, 13, 90, 1) 25%, rgb(255 0 194 / 42%) 100%);
+    --dard-bg: #383848;
+    --main-color-alt: #af547d;
+    --text-color: #344767;
+    --white-color: #fff;
+    --white-alt: #e6e6e6;
+
+    /* ===FONT AND TYPOGRAPHY=== */
+
+    --body-font: "Roboto", sans-serif;
+    --biggest-font-size: 2.25rem;
+    --h1-font-size: 1.5rem;
+    --h2-font-size: 1,25rem;
+    --h3-font-size: 1rem;
+    --normal-font-size: 0.938rem;
+    --small-font-size: 0.813rem;
+    --smaller-font-size: 0.75rem;
+
+    /* ===FONT WIDTH=== */
+
+    --font-medium: 500;
+    --font-semi-bold: 600;
+
+    /* ===MARGIN PADDING=== */
+
+    --md-1: 0.5rem;
+    --md-2: 1rem;
+    --md-3: 1.5rem;
+    --md-4: 2rem;
+    --md-5: 2.5rem;
+    --md-6: 3rem;
+
+    /* ===Z INDEX=== */
+
+    --z-tooltip: 10;
+    --z-fixed: 100;
+}

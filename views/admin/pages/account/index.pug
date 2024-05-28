@@ -1,0 +1,88 @@
+extends ../../layout/default 
+block main 
+  if(role.permissions.includes("accounts_view")) 
+
+      h1(class="mb-4") Tài khoản
+
+      .card.mb-3.box-item
+        .card-header Danh sách
+        .card-body
+          .row
+            .col-8
+            .col-4.text-end
+              if(role.permissions.includes("accounts_create")) 
+                a(
+                  href=`${prefixAdmin}/accounts/create`
+                  class="btn btn-create"
+                ) + Thêm mới
+        table(
+          class="table table-hover table-sm"
+        )
+          thead
+            tr
+              th STT
+              th Avatar
+              th Tài khoản
+              th Email
+              th Phân quyền
+              th Tạo bởi
+              th Sửa bởi
+              th Trạng thái
+              th Hành động
+
+          tbody
+            if(records.length > 0)
+              each item, index in records
+                tr
+                  td #{index + 1}
+                  td
+                    .inner-img
+                      img(
+                        src=item.avatar
+                        alt=item.fullName
+                        width="100px"
+                        height="auto"
+                      )
+                  td #{item.fullName}
+                  td #{item.email}
+                  td #{item.roleTitle}
+                  td 
+                    div #{item.createdBy}
+                    div #{moment(item.createdAt).format("DD/MM/YY HH:mm")}
+                  td 
+                    div #{item.updatedBy}
+                    div #{moment(item.updatedAt).format("DD/MM/YY HH:mm")}
+                  td #{item.status ? "Hoạt đông" : "Ngừng hoạt động"}
+                  td
+                    a(
+                      class="btn btn-detail"
+                      href=`${prefixAdmin}/accounts/detail/${item.id}`
+                    ) 
+                      i.fa-solid.fa-eye
+                    if(role.permissions.includes("accounts_edit")) 
+                      a(
+                        class="btn btn-edit"
+                        href=`${prefixAdmin}/accounts/edit/${item.id}`
+                      )
+                        i.fa-regular.fa-pen-to-square
+                    if(role.permissions.includes("accounts_delete")) 
+                      button(
+                        data-id=item.id
+                        button-delete 
+                        class="btn btn-delete"
+                      ) 
+                        i.fa-regular.fa-trash-can
+                    
+            else
+              tr
+                td(colspan="4" class="text-center") Chưa có tài khoản nào được tạo.
+
+      form(
+          form-delete 
+          method="POST"
+          action=""
+          data-path="/admin/accounts/delete"
+        )
+  else 
+    h2 Bạn không có quyền truy cập vào trang này
+        

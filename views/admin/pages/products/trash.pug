@@ -1,43 +1,46 @@
-extends ../layout/default.pug
-include ../mixins/filter.pug
-include ../mixins/search.pug
-include ../mixins/pagination.pug
+extends ../../layout/default.pug
+include ../../mixins/filter.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/alert.pug
 
 block main 
-    h1 Trang danh sách sản phẩm
+  if(role.permissions.includes("products_delete")) 
+    +alert-success()
+    +alert-error()
 
-    .card.mb-3
-    .card-header Bộ lọc và Tìm kiếm
-    .card-body
-        .row 
+    .card.mb-3.box-item
+      .card-header Bộ lọc và Tìm kiếm
+      .card-body
+          .row 
             .col-6
                 +filter(filterStatus)
             .col-6 
                 +search(keyword)
 
-    .card.mb-3
+    .card.mb-3.box-item
       .card-header Danh sách
       .card-body
-      .row 
-        .col-6
-          form(
-            action=`${prefixAdmin}/products/change-multi?_method=PATCH`
-            method="POST"
-            form-change-multi
-          ) 
-            .d-flex.align-items-start
-              .form-group
-                select(name="type" class="form-control")
-                    option(value="active") Hoạt động
-                    option(value="inactive") Dừng hoạt động
-              .form-group.d-none
-                input(
-                    type="text"
-                    name="ids"
-                    value=""
-                    class="form-control"
-                )
-              button(type="submit" class="btn btn-primary") Áp dụng
+        .row 
+          .col-6
+            form(
+              action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+              method="POST"
+              form-change-multi
+            ) 
+              .d-flex.align-items-start
+                .form-group
+                  select(name="type" class="form-control")
+                    option(value="remove-all") Xóa tất cả
+                    option(value="recall-all") Khôi phục tất cả
+                .form-group.d-none
+                  input(
+                      type="text"
+                      name="ids"
+                      value=""
+                      class="form-control"
+                  )
+                button(type="submit" class="btn btn-apply") Áp dụng
               
       table(
         class="table table-hover table-sm"
@@ -51,6 +54,7 @@ block main
                 th Hình ảnh
                 th Tiêu đề
                 th Giá
+                th Được xóa bởi
                 th Trạng thái
                 th Hành động    
         tbody 
@@ -63,6 +67,9 @@ block main
                 img(src=`${item.thumbnail}` alt=`${item.title}` )
               td #{item.title}
               td #{item.price}
+              td 
+                div #{item.deletedBy}
+                div #{moment(item.deletedAt).format("DD/MM/YY HH:mm")}
               td
                 if(item.status == "active")
                   a(
@@ -105,3 +112,12 @@ block main
       action=""
       data-path="/admin/products/recall"
     )
+    form(
+      form-change-status 
+      method="POST"
+      action=""
+      data-path="/admin/products/change-status"
+    )  
+  else 
+    h2 Bạn không có quyền truy cập trang này
+  

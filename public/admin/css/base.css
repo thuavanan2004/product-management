@@ -1,0 +1,192 @@
+/* ===BASE CSS=== */
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    color: var(--second-color);
+    font-size: 15px;
+    font-weight: 400;
+    font-family: var(--body-font);
+    line-height: 28px;
+    background-color: var(--body-color) !important;
+}
+
+img {
+    vertical-align: middle;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    display: inline-block;
+    color: var(--text-color);
+}
+
+ul,
+ol {
+    list-style-type: none;
+}
+
+button:focus {
+    outline: none;
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+label,
+p,
+ul,
+li {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+/* Button  */
+.btn {
+    border: none;
+    color: #fff;
+    font-weight: 400;
+    margin-right: 5px;
+}
+
+.btn-update {
+    background: #CB0C9F;
+}
+
+.btn:active {
+    background: #CB0C9F;
+}
+
+.btn-active {
+    background-image: linear-gradient(310deg, #17ad37, #98ec2d);
+    font-size: 13px;
+}
+
+.btn-inactive {
+    background-image: linear-gradient(310deg, #627594, #a8b8d8);
+    font-size: 13px;
+}
+
+.btn-prmission {
+    background: #CB0C9F;
+}
+
+.btn-detail {
+    background: #5C636A;
+}
+
+.btn-edit {
+    background: #FFCA2C;
+}
+
+.btn-create {
+    background: rgb(90, 195, 255);
+}
+
+.btn-trash {
+    background: #e92a2a;
+}
+
+.btn-trash i {
+    margin-right: 5px;
+}
+
+.btn-delete {
+    background: #e92a2a;
+}
+
+.btn-apply {
+    background: rgb(90, 195, 255);
+}
+
+.btn[button-status] {
+    color: #312f2f;
+    border: solid 1px #ddd;
+}
+
+.btn-clear {
+    background-image: linear-gradient(310deg, #7928ca, #ff0080);
+    border: none;
+    color: #fff;
+    font-weight: 400;
+}
+
+.btn-clear:hover {
+    color: #fff;
+    font-weight: 400;
+}
+
+/* End Button  */
+/* Show Alert */
+[show-alert] {
+    position: fixed;
+    top: 110px;
+    right: 15px;
+    z-index: 9999;
+}
+
+[show-alert].alert-hidden {
+    animation-name: alert-hidden;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+@keyframes alert-hidden {
+    from {
+        right: 15px;
+    }
+
+    to {
+        right: -100%;
+        display: none;
+    }
+}
+
+/* End Show Alert */
+/* image-preview */
+.image-preview {
+    width: 150px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.image-preview[src=""] {
+    display: none;
+}
+
+/* End image-preview */
+.filter-sort:focus {
+    border-color: #CB0C9F;
+    box-shadow: none;
+    box-shadow: 0 0 0 2px #e9aede;
+}
+
+.filter-sort option {
+    background-color: #fff;
+}
+
+.form-check-input:checked {
+    background-color: #CB0C9F;
+    color: #CB0C9F;
+    border: hidden;
+}

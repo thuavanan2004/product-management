@@ -1,3 +1,17 @@
 extends ../../layout/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/list-featured.pug
+include ../../mixins/alert.pug
 block main
-    h1 Trang chủ
+    +alert-success()
+    .container.my-3
+        .row
+            .col-12
+                +box-head("Sản phẩm nổi bật")
+
+        +list-feature(productsFeatured)
+        .row
+            .col-12
+                +box-head("Sản phẩm mới")
+
+        +list-feature(productsNew)

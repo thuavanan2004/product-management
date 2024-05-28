@@ -1,0 +1,56 @@
+extends ../../layout/default.pug
+
+block main 
+  if(role.permissions.includes("order-management_view"))
+    .order-management 
+      .card 
+        .card-header 
+          ul.d-flex
+            li Người đặt
+            li Thời gian
+            li Số điện thoại 
+            li Địa chỉ
+            li Số lượng
+            li Tổng tiền
+            li
+        .card-body   
+          table.w-100 
+            tbody
+              each order in orders 
+                tr
+                  td 
+                    #accordionFlushExample.accordion.accordion-flush
+                      .accordion-item
+                        h2.accordion-header
+                          button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target=`#flush-collapse${order.id}` aria-expanded='false' aria-controls=`flush-collapse${order.id}`)
+                            ul.d-flex
+                              li #{order.userInfo.fullName}
+                              li #{order.createdAtFormat}
+                              li #{order.userInfo.phone}
+                              li #{order.userInfo.address}
+                              li #{order.quantity}
+                              li #{order.totalPrice}
+                              li  
+                                i(class="fa-solid fa-print")
+                      .accordion-collapse.collapse(id=`flush-collapse${order.id}` data-bs-parent='#accordionFlushExample')
+                        .accordion-body
+                          table
+                            thead 
+                              tr 
+                                th 
+                                th Tên sản phẩm
+                                th Giá
+                                th Số lượng
+                                th Giảm giá
+                                th Tổng
+                            tbody 
+                              each product in order.products
+                                tr.accordion-item
+                                  td 
+                                    .inner-img 
+                                      img(src=product.thumbnail)
+                                  td #{product.title}
+                                  td #{product.price}
+                                  td #{product.quantity}
+                                  td #{product.discountPercentage}
+                                  td #{product.totalPrice}

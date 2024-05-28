@@ -1,0 +1,27 @@
+extends ../../layout/default 
+block main 
+    if (blog.title)
+        h2(class="mb-4") #{blog.title}
+
+
+    if (blog.thumbnail)
+        div(class="mb-4")
+        img(
+            src=blog.thumbnail
+            style="width: 100px"
+        )
+    if (blog.content)
+        div(class="mb-4") !{blog.content}
+
+    if (blog.status)
+        div(class="mb-4")
+        span Trạng thái:
+        if (blog.status === "active")
+            span(class="badge badge-success") Hoạt động
+        else
+            span(class="badge badge-danger") Dừng hoạt động
+
+    if (blog.position)
+        div(class="mb-4") Vị trí: <b>#{blog.position}</b>
+
+    

@@ -1,6 +1,27 @@
-.header 
-    .row 
-        .col-3 
-            .inner-logo
-                a(href=`${prefixAdmin}`) ADMIN
-        .col-9
+
+header.header.navbar.navbar-expand-sm.expand-header
+    .nav-right 
+        nav(aria-label="breadcrumb" breadcrumb)
+            ol.breadcrumb
+                li.breadcrumb-item
+                    a(href="/") Home  
+            h6(class="page-active" currentPage) 
+    ul.navbar-item
+        li.nav-item.dropdown.user-profile-dropdown
+            a(
+                href=`${prefixAdmin}/auth/logout`
+                class="btn-item"
+            ) 
+                i.fa-regular.fa-bell
+        li.nav-item.dropdown.user-profile-dropdown
+            a(
+                href=`${prefixAdmin}/auth/logout`
+                class="btn-item"
+            ) 
+                i.fa-regular.fa-user
+        li.nav-item.dropdown.user-profile-dropdown
+            a(
+                href=`${prefixAdmin}/auth/logout`
+                class="btn-item"
+            ) 
+                i.fa-solid.fa-right-from-bracket

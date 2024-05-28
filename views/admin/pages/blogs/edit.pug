@@ -1,0 +1,113 @@
+extends ../../layout/default 
+include ../../mixins/alert
+include ../../mixins/selectTree
+
+block main 
+  if(role.permissions.includes("blogs_create")) 
+    +alert-error()
+    form(
+      action=`${prefixAdmin}/blogs/edit/${blog.id}?_method=PATCH`
+      method="POST"
+      enctype="multipart/form-data"
+    )
+      div(class="form-group")
+        label(
+          for="title"
+        ) Tiêu đề
+        input(
+          type="text" 
+          name="title"
+          id="title"
+          class="form-control"
+          value=blog.title
+        )
+      div(
+        class="form-group my-2"
+        upload-image
+      )
+        label(for="thumbnail ") 
+          i(class="fa-solid fa-camera d-none")
+        input(
+          type="file"
+          id="thumbnail"
+          name="thumbnail"
+          class="form-control-file "
+          accept="image/*"
+          upload-image-input
+        )
+        img(
+          src=blog.thumbnail
+          class="image-preview"
+          upload-image-preview
+        )
+      div(class="form-group form-check form-check-inline my-2")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="featured1"
+          name="featured"
+          value="1"
+          checked=(blog.featured === "1" ? true : false)
+        )
+        label(for="featured1" class="form-check-label") Nổi bật
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="featured0"
+          name="featured"
+          value="0"
+          checked=(blog.featured === "0" ? true : false)
+        )
+        label(for="featured0" class="form-check-label") Không
+      div(class="form-group") 
+        label(for="content") Nội dung
+        textarea(
+          name="content"
+          id="content"
+          class="form-control"
+          rows="5"
+          textarea-mce
+        ) !{blog.content}
+      
+      div(class="form-group my-2")
+        label(for="position") Vị trí
+        input(
+          type="number"
+          class="form-control"
+          id="position"
+          name="position"
+          placeholder="Tăng tự động"
+          value=blog.position
+        )
+      div(class="form-group form-check form-check-inline my-2")
+        input(
+          type="radio"
+          class="form-check-input"
+          name="status"
+          id="statusActive"
+          value="active"
+          checked=(blog.status === "active" ? true : false)
+        )
+        label(for="statusActive" class="form-check-label") Hoạt động
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          name="status"
+          value="inactive"
+          id="statusInActive"
+          checked=(blog.status === "inactive" ? true : false)
+        )
+        label(for="statusInActive" class="form-check-label") Ngừng hoạt động
+      div(class="form-group")
+        button(
+          type="submit"
+          class="btn btn-create"
+        ) Cập nhật
+  else 
+    h2 Bạn không có quyền truy cập trang này
+
+    
+
+

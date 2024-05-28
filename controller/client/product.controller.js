@@ -1,6 +1,7 @@
 const Product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
 
-
+// [GET] /products/
 module.exports.index = async (req, res) => {
     const products = await Product.find({
         status: "active",
@@ -15,18 +16,78 @@ module.exports.index = async (req, res) => {
     });
 }
 
+// [GET] /products/detail/:slug
 module.exports.detail = async (req, res) => {
-    const slug = req.params.slug;
-    const product = await Product.findOne({
-        slug: slug
-    })
-    if(product){
-        res.render("client/pages/products/detail", {
-            pageTitle: "Trang chi tiết sản phẩm ",
-            product: product
+    try{
+        const slug = req.params.slug;
+        const product = await Product.findOne({
+            slug: slug
+        })
+        const category = await ProductCategory.findOne({
+            _id: product.product_category_id,
+            deleted: false,
+            status: "active"
         });
-    }else {
-        res.redirect("back");
+        product.category = category;
+
+        product.priceNew = (product.price * (100 - product.discountPercentage)/100).toFixed(0);
+
+        if(product){
+            res.render("client/pages/products/detail", {
+                pageTitle: product.title,
+                product: product
+            });
+        }else {
+            res.redirect("back");
+        }
+    } catch{
+        res.redirect("back")
     }
     
+}
+
+// [GET] /products/:slugCategory
+module.exports.category = async (req, res) => {
+    const slugCategory = req.params.slugCategory;
+    const category = await ProductCategory.findOne({
+        slug: slugCategory,
+        deleted: false,
+        status: "active"
+    })
+    
+    
+    const getSubCategory = async (parent_id) => {
+        let allSubs = []
+        const listSub = await ProductCategory
+        .find({
+            deleted: false,
+            status: "active",
+            parent_id: parent_id.id
+        })
+        .select("id title")
+        allSubs = [...listSub]
+        for (const sub of allSubs) {
+            const childs = await getSubCategory(sub)
+            allSubs = [...allSubs, ...childs]
+        }
+        return allSubs;
+    }
+    const listSubCategory = await getSubCategory(category);
+    const listIdSubCategory = listSubCategory.map(item => item.id)
+
+    const products = await Product.find({
+        product_category_id: {$in : [category.id, ...listIdSubCategory]},
+        deleted: false,
+        status: "active",
+    }).sort({position: "desc"})
+    
+    for (const item of products) {
+        item.priceNew = (item.price * (100 - item.discountPercentage)/100).toFixed(0);
+    }
+    
+
+    res.render("client/pages/products/index", {
+        pageTitle: category.title,
+        products: products
+    });
 }

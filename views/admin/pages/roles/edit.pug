@@ -1,0 +1,40 @@
+extends ../../layout/default
+include ../../mixins/alert 
+block main 
+    if(role.permissions.includes("roles_edit")) 
+
+        h1(class="mb-4") Chỉnh sửa nhóm quyền
+
+        +alert-success()
+        +alert-error()
+
+        form(
+            action=`${prefixAdmin}/roles/edit/${data.id}?_method=PATCH`
+            method="POST"
+        )
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    required
+                    value=data.title
+                )
+            div(class="form-group")
+                label(for="desc") Mô tả
+                input(
+                    type="text"
+                    class="form-control"
+                    id="desc"
+                    name="description"
+                    value=data.description
+                )
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Cập nhật
+    else 
+        h2 Bạn không có quyền truy cập trang này

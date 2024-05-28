@@ -1,11 +1,11 @@
 /* Header */
-
 .header {
-    background-color: #202020;
-    padding: 30px;
-    position: sticky;
-    top: 0;
-    z-index: 999;
+    background-color: #F8F9FA;
+    padding: 20px;
+    margin: 0 10px;
+    left: 230px;
+    width: calc(100% - 240px);
+    transition: all .2s ease-in-out;
 }
 
 .header .inner-logo {
@@ -19,36 +19,130 @@
     text-decoration: none;
 }
 
-/* End Header */
-body {
-    background-color: #fff;
+.nav-right li a {
+    font-size: 14px;
+    color: #6c757d !important;
 }
+
+.nav-right .active {
+    color: #212936;
+}
+
+.nav-right .page-active {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.nav-right .breadcrumb {
+    margin-bottom: 5px;
+}
+
+.navbar-item {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.navbar-item li {
+    margin-right: 20px;
+}
+
+.navbar-item li .btn-item {
+    font-size: 20px;
+    color: #6c757d;
+    margin-right: 10px;
+}
+
+/* End Header */
 /* Sider */
 
 .sider {
-    width: 150px;
-    background: #323232;
+    width: 230px;
+    background: var(--body-color);
     color: #fff;
-    height: calc(100vh - 60px);
+    height: 100%;
     position: fixed;
-    top: 104px;
     left: 0;
+    top: 0;
+    transition: all .2s ease-in-out;
 }
 
-.sider .inner-menu ul {
+.sider .sider-header {
+    padding: 30px 45px;
+}
+
+.sider .sider-header a {
+    color: #344767;
+    font-weight: 400;
+}
+
+hr {
+    border-top: none !important;
+    height: 1px;
+    background-image: linear-gradient(90deg, transparent, rgba(0, 0, 0, .4), transparent);
+}
+
+hr .horizontal {
+    background-color: transparent;
+}
+
+.sider .sider-main {
+    /* overflow: auto; */
+}
+
+.sider .sider-main ul {
     list-style-type: none;
     margin-top: 20px;
     font-size: 18px;
+    margin-right: 10px;
+    padding: 5px;
+    margin-left: 10px;
 }
-.sider .inner-menu ul li {
+
+.sider .sider-main ul li {
     margin-bottom: 5px;
     margin-left: 0;
     font-weight: 500;
+    padding: 15px;
+    display: flex;
 }
-.sider .inner-menu ul li a:hover {
-    color: #fff;
 
-    text-decoration: none;
+.sider .sider-main ul .active {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+}
+
+.sider .sider-main ul .active .icon-sider {
+    background-color: #CB0C9F;
+
+}
+
+.sider .sider-main ul .active .icon-sider i {
+    color: #fff;
+    font-size: 15px;
+}
+
+.sider .sider-main ul li a {
+    color: #6F7C93;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.sider .sider-main ul li i {
+    color: #3A416F;
+    font-size: 16px;
+}
+
+.sider .sider-main ul li .icon-sider {
+    background-color: #fff;
+    width: 33px;
+    height: 33px;
+    border-radius: 5px;
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* End Sider */
@@ -57,18 +151,33 @@ body {
 body .main {
     margin: 15px;
     position: relative;
-    left: 150px;
-    width: calc(100% - 180px);
-  }
+    left: 230px;
+    width: calc(100% - 265px);
+    padding-left: 15px;
+    transition: all .2s ease-in-out;
+
+}
+
 /* End Main */
 
-/* Product */
- .table {
+/* BoxList */
+.table {
     width: 100%;
     max-width: 100%;
     margin-bottom: 1rem;
     background-color: transparent;
     background: #F0F0F0;
+}
+
+.table .inner-img {
+    width: 100px;
+    height: 100px;
+}
+
+.table .inner-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .table th,
@@ -83,71 +192,431 @@ body .main {
     border-bottom: 2px solid #dee2e6;
 }
 
-.table tbody + tbody {
+.table tbody+tbody {
     border-top: 2px solid #dee2e6;
 }
 
 .table {
     background-color: #fff;
 }
+
 /* .table td img {
     width: 250px;
     height: 150px;
     object-fit: cover;
 } */
 .table .image {
-    width: 250px; 
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-bottom: 1px solid #ddd;
+    display: flex;
 }
+
 .table .image img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 
-/* End Product */
+.box-item {
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+    border: none;
+    border-radius: 15px;
+}
+
+.box-item .card-header {
+    background-color: #fff;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    color: var(--text-color);
+}
+
+.box-item .active {
+    background-image: linear-gradient(310deg, #7928ca, #ff0080);
+    border: none;
+    color: #fff;
+    font-weight: 400;
+}
+
+#form-search {
+    border: none;
+}
+
+#form-search .btn {
+    background-image: linear-gradient(310deg, #7928ca, #ff0080);
+    color: #fff;
+    font-weight: 400;
+}
+
+.form-control:focus {
+    border-color: #CB0C9F;
+    box-shadow: none;
+    box-shadow: 0 0 0 2px #e9aede;
+}
+
+
+
+/* End BoxList */
 #form-search {
     display: flex;
     flex-wrap: nowrap;
-    border: solid 1px #ddd;
     margin-bottom: 5px;
 }
-/* Show Alert */
-[show-alert] {
-    position: fixed;
-    top: 110px;
-    right: 15px;
-    z-index: 9999;
-  }
-  
-  [show-alert].alert-hidden {
-    animation-name: alert-hidden;
-    animation-duration: 0.5s;
-    animation-fill-mode: both;
-  }
-  
-  @keyframes alert-hidden {
-    from {
-      right: 15px;
-    }
-    to {
-      right: -100%;
-      display: none;
-    }
-  }
-/* End Show Alert */
-/* image-preview */
-.image-preview {
-    width: 150px;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+
+/* Permission */
+.table-permission {
+    border-radius: 20px;
     overflow: hidden;
+}
+
+.css-checkbox {
+    position: relative;
+    display: inline-block;
+}
+
+.css-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.css-checkbox input[type="checkbox"]+.checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5.5px;
+    top: 1.5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+}
+
+/* Show the checkmark when checked */
+.css-checkbox input[type="checkbox"]:checked+.checkmark::after {
+    display: block;
+}
+
+.checkmark {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #CB0C9F;
+    top: -10px;
+    left: 0px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/* End Permission */
+
+/* Dash board  */
+.page-dashboard .card {
+    border: none;
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+    overflow: hidden;
+    height: 100%;
+}
+
+.page-dashboard .card .numbers .card-title {
+    color: #67748E;
+    font-size: 14px;
+    font-weight: 450;
+}
+
+.page-dashboard .card .numbers h5 {
+    display: flex;
+    align-items: center;
+}
+
+.page-dashboard .card .numbers .card-info {
+    color: #344767;
+    font-size: 20px;
+    margin-right: 5px;
+    font-weight: 500;
+}
+
+.page-dashboard .card .numbers span {
+    font-size: 15px;
+}
+
+.page-dashboard .card .icon-card {
+    width: 48px;
+    height: 48px;
+    background-image: linear-gradient(310deg, #7928ca, #ff0080);
+    border-radius: 10px;
+    box-shadow: 0 .3125rem .625rem 0 rgba(0, 0, 0, .12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-dashboard .card .icon-card i {
+    font-size: 18px;
+    color: #fff;
+}
+
+.page-dashboard .card .inner-img {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    background-image: linear-gradient(310deg, #7928ca, #ff0080);
+    border-radius: 10px;
+    box-shadow: 0 .3125rem .625rem 0 rgba(0, 0, 0, .12);
+    object-fit: cover;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    margin-left: auto;
+}
+
+.page-dashboard .card .inner-img img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.page-dashboard .card .card-desc {
+    color: #67748E;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.page-dashboard .card-right {
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.page-dashboard .card-right .card {
+    height: 100%;
+    height: 100%;
+    background-image: url("/uploads/ivancik.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+
+}
+
+.page-dashboard .card-right .card-backgroud {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(310deg, #141727, #3a416f);
+    opacity: 0.6;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.page-dashboard .card-right .card-body {
+    color: #fff;
+    z-index: 9;
+}
+
+.page-dashboard .card-right .title {
+    font-size: 22px;
+    padding-bottom: 20px;
+    font-weight: 450;
+}
+
+.page-dashboard .card-right .desc {
+    font-size: 16px;
+
+}
+
+.list-product .card-header {
+    background-color: #fff;
+    border: hidden;
+    padding: 10px;
+}
+
+.list-product .head-title {
+    color: #344767;
+    font-size: 16px;
+}
+
+.list-product thead {
+    border-top: hidden;
+}
+
+.list-product .card-body {
+    padding-top: 0;
+    border-top: hidden;
+}
+
+.list-product .table td {
+    color: #67748E;
+    font-size: 15px;
+    padding: 0;
+}
+
+.list-product .table th {
+    color: #8392AB;
+    font-size: 12px;
+    border-bottom: solid 1px #dee2e6;
+    padding: 0;
+}
+
+.list-product .inner-product {
+    display: flex;
+    align-items: center;
+}
+
+.list-product .inner-product p {
+    color: #383737;
+    font-size: 15px;
+    font-weight: 410;
+}
+
+.list-product .inner-image {
+    width: 70px;
+    height: 70px;
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.list-product .card-header .col-10 {
+    padding: 5px 30px;
+}
+
+.list-product .card-header .title {
+    color: #344767;
+    font-size: 16px;
+    font-weight: 450;
+}
+
+.list-product .card-header span i {
+    color: #67748E;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.list-product .inner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* End Dash board  */
+/* Order-management  */
+.order-management .card {
+    border: hidden;
+}
+
+.order-management .card .card-header {
+    background-color: #fff;
+    padding: 20px 36px;
+}
+
+.order-management .card .card-header ul {
+    justify-content: space-between;
+}
+
+.order-management .card .card-header ul li {
+    width: calc(100%/7);
+    color: #606060;
+    font-weight: 420;
+}
+
+.order-management .card .card-body button {
+    display: flex;
+}
+
+.order-management .card .card-body button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(210, 66, 230, 0.25);
+    ;
+}
+
+.order-management .card .accordion-button:not(.collapsed) {
+    background-color: #f7a2e3;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.order-management .card .card-body button ul {
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-management .card .card-body button ul li {
+    width: calc(calc(100% / 7) - 18px);
+    color: var(--text-color);
+    font-weight: 450;
+}
+
+.order-management .card .card-body button ul li i {
+    background-color: #DDE2FF;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.order-management .card table {
+    width: 100%;
+}
+
+.order-management .card table .inner-img {
+    width: 80px;
+    height: 80px;
     padding: 5px;
 }
 
-.image-preview[src=""] {
-    display: none;
+.order-management .card table .inner-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
-/* End image-preview */
+
+.order-management .card .table th {
+    color: var(--text-color);
+    font-weight: 400;
+
+}
+
+/* End Order-management  */
+/* Setting General */
+.setting-general label[for='logo'] {
+    width: 30px;
+    min-height: 30px;
+    background: #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    z-index: 9;
+}
+
+.setting-general label[for='logo'] i {
+    font-size: 12px;
+}
+
+/* Image Upload Create  */
+label[for='thumbnail'] {
+    width: 150px;
+    min-height: 100px;
+    background: #ddd;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    z-index: 9;
+}
+
+label[for='thumbnail'] i {
+    font-size: 30px;
+}
+
+/* Image Upload Create  */

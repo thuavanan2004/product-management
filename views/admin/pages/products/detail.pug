@@ -1,4 +1,4 @@
-extends ../layout/default 
+extends ../../layout/default 
 block main 
     if (product.title)
         h2(class="mb-4") #{product.title}
@@ -31,4 +31,4 @@ block main
         div(class="mb-4") Vị trí: <b>#{product.position}</b>
 
     if (product.description)
-        div(class="mb-4") #{product.description}
+        div(class="mb-4") !{product.description}

@@ -1,0 +1,191 @@
+extends ../../layout/default.pug 
+include ../../mixins/filter.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/alert.pug
+
+block main
+  if(role.permissions.includes("blogs_view")) 
+
+    +alert-success()
+    //- - if (messages.success)
+    //-     div(class="alert alert-success")
+    //-       | #{messages.success}
+
+    .row
+      .col-lg-8.col-12
+        .card.mb-3.box-item
+          .card-header Bộ lọc và Tìm kiếm
+          .card-body
+              .row 
+                  .col-7
+                      +filter(filterStatus)
+                  .col-5 
+                      +search(keyword)
+      .col-lg-4.col-12
+        .card.mb-3.box-item
+          .card-header Sắp xếp
+          .card-body
+            .row
+              .col-12
+                div(sort class="filter-sort d-flex")
+                  select(
+                    class="form-control"
+                    name="sort"
+                    sort-select
+                  )
+                    option(value="position-desc") Vị trí giảm dần
+                    option(value="position-asc") Vị trí tăng dần
+                    option(value="title-asc") Tiêu đề A - Z
+                    option(value="title-desc") Tiêu đề Z - A
+                  button(
+                    class="btn btn-clear"
+                    sort-clear
+                  ) Clear
+             
+
+
+
+    .card.mb-3.box-item.box-list
+      .card-header Danh sách
+      .card-body
+        .row 
+          .col-6
+            form(
+              action=`${prefixAdmin}/blogs/change-multi?_method=PATCH`
+              method="POST"
+              form-change-multi
+            ) 
+              .d-flex.align-items-start
+                .form-group
+                  select(name="type" class="form-control")
+                    option(value="active") Hoạt động
+                    option(value="inactive") Dừng hoạt động
+                    option(value="change-position") Thay đổi vị trí
+                    option(value="delete-all") Xóa tất cả
+                .form-group.d-none
+                  input(
+                      type="text"
+                      name="ids"
+                      value=""
+                      class="form-control"
+                  )
+                button(type="submit" class="btn btn-apply") Áp dụng
+          .col-3
+              if(role.permissions.includes("blogs_delete")) 
+                a(
+                  href=`${prefixAdmin}/blogs/trash`
+                  class="btn btn-trash"
+                  buttonTrash
+                ) 
+                  i.fa-regular.fa-trash-can
+                  span Thùng rác 
+          .col-3.text-end
+            if(role.permissions.includes("blogs_create")) 
+              a(
+                href=`${prefixAdmin}/blogs/create`
+                class="btn btn-create"
+                name="buttonCreate"
+              ) + Thêm mới
+      table(
+        class="table table-hover table-sm"
+        checkbox-multi  
+      )
+        thead 
+          tr
+            td 
+              input(type="checkbox" name="checkall")
+            th STT 
+            th Hình ảnh
+            th Tiêu đề
+            th Vị trí
+            th Người tạo
+            th Người sửa
+            th Trạng thái
+            th Hành động    
+        tbody 
+          each blog, index in blogs
+            tr 
+              td 
+                input(type="checkbox" name="id" value=blog.id)
+              td #{objectPagination.limitPage * (objectPagination.currentPage - 1) + index + 1}  
+              td.image 
+                a(
+                  href=`${prefixAdmin}/blogs/detail/${blog.id}`
+                )
+                  img(src=`${blog.thumbnail}` alt=`${blog.title}` )     
+              td 
+                a(
+                  href=`${prefixAdmin}/blogs/detail/${blog.id}`
+                ) #{blog.title} 
+              td 
+                input(
+                  name="position"
+                  type="number"
+                  value= blog.position
+                  min= "1"
+                  style= "width: 40px"
+                )
+              td 
+                div #{blog.createdBy}
+                div #{moment(blog.createdAt).format("DD/MM/YY HH:mm")}
+              td 
+                div #{blog.updatedBy}
+                div #{moment(blog.updatedAt).format("DD/MM/YY HH:mm")}
+              td
+                if(role.permissions.includes("blogs_edit")) 
+                  if(blog.status == "active")
+                    a(
+                      href="javascript:;"
+                      button-change-status 
+                      data-id=blog.id 
+                      data-status="inactive"
+                      class="badge badge-success btn-active"
+                    ) Hoạt động
+                  else
+                    a(
+                      href="javascript:;"
+                      button-change-status 
+                      data-id=blog.id 
+                      data-status="active"
+                      class="badge badge-danger btn-inactive"
+                    ) Dừng hoạt động
+              td
+                a(
+                  href=`${prefixAdmin}/blogs/detail/${blog.id}`
+                  class="btn btn-detail"
+                )   
+                  i.fa-solid.fa-eye
+                if(role.permissions.includes("blogs_edit")) 
+                  a(
+                    href=`${prefixAdmin}/blogs/edit/${blog.id}`
+                    class="btn btn-edit"
+                  ) 
+                    i.fa-regular.fa-pen-to-square
+                if(role.permissions.includes("blogs_delete")) 
+                  a(
+                    class="btn btn-delete"
+                    button-delete 
+                    data-id=blog.id
+                  ) 
+                    i.fa-regular.fa-trash-can
+                
+                
+
+    if(blogs.length > 4)
+      +pagination(objectPagination)
+
+    form(
+      form-change-status 
+      method="POST"
+      action=""
+      data-path="/admin/blogs/change-status"
+    )  
+    form(
+      form-delete 
+      method="POST"
+      action=""
+      data-path="/admin/blogs/delete"
+    )
+  else 
+    h2 Bạn không có quyền truy cập vào trang này

@@ -1,0 +1,74 @@
+extends ../../layout/default 
+block main 
+  if(role.permissions.includes("roles_view")) 
+
+
+    .card.mb-3.box-item.box-list
+      .card-header Danh sách
+      .card-body
+        .row
+          .col-8
+          .col-4.text-end
+            if(role.permissions.includes("roles_create")) 
+              a(
+                href=`${prefixAdmin}/roles/create`
+                class="btn btn-create"
+              ) + Thêm mới
+      
+      table(
+        class="table table-hover table-sm"
+      )
+        thead
+          tr
+            th STT
+            th Nhóm quyền
+            th Mô tả ngắn
+            th Tạo bởi
+            th Sửa bởi
+            th Hành động
+
+        tbody
+          if(records.length > 0)
+            each item, index in records
+              tr
+                td #{index + 1}
+                td #{item.title}
+                td #{item.description}
+                td 
+                  div #{item.createdBy}
+                  div #{moment(item.createdAt).format("DD/MM/YY HH:mm")}
+                td 
+                  div #{item.updatedBy}
+                  div #{moment(item.updatedAt).format("DD/MM/YY HH:mm")}
+                td
+                  a(
+                    class="btn btn-detail btn-sm"
+                    href=`${prefixAdmin}/roles/detail/${item.id}`
+                  ) 
+                    i.fa-solid.fa-eye
+                  if(role.permissions.includes("roles_edit")) 
+                    a(
+                      class="btn btn-edit btn-sm ml-1"
+                      href=`${prefixAdmin}/roles/edit/${item.id}`
+                    ) 
+                      i.fa-regular.fa-pen-to-square
+                  if(role.permissions.includes("roles_delete")) 
+                    a(
+                      data-id=item.id
+                      class="btn btn-delete btn-sm ml-1"
+                      button-delete 
+                    ) 
+                      i.fa-regular.fa-trash-can
+          else
+            tr
+              td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo.
+
+
+    form(
+      form-delete 
+      method="POST"
+      action=""
+      data-path="/admin/roles/delete"
+    )
+  else 
+    h2 Bạn không có quyền truy cập vào trang này

@@ -1,0 +1,117 @@
+extends ../../layout/default.pug 
+include ../../mixins/filter.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/alert.pug
+
+block main
+  if(role.permissions.includes("blogs_edit")) 
+
+    +alert-success()
+    //- - if (messages.success)
+    //-     div(class="alert alert-success")
+    //-       | #{messages.success}
+
+    .row
+      .col-12
+        .card.mb-3.box-item
+          .card-header Tìm kiếm
+          .card-body
+              .row 
+                  .col-12
+                      +search(keyword)
+             
+
+
+
+    .card.mb-3.box-item.box-list
+      .card-header Danh sách
+      .card-body
+        .row 
+          .col-6
+            form(
+              action=`${prefixAdmin}/blogs/change-multi?_method=PATCH`
+              method="POST"
+              form-change-multi
+            ) 
+              .d-flex.align-items-start
+                .form-group
+                  select(name="type" class="form-control")
+                    option(value="remove-all") Xóa tất cả
+                    option(value="recall-all") Khôi phục tất cả
+                .form-group.d-none
+                  input(
+                      type="text"
+                      name="ids"
+                      value=""
+                      class="form-control"
+                  )
+                button(type="submit" class="btn btn-apply") Áp dụng
+      table(
+        class="table table-hover table-sm"
+        checkbox-multi  
+      )
+        thead 
+          tr
+            td 
+              input(type="checkbox" name="checkall")
+            th STT 
+            th Hình ảnh
+            th Tiêu đề
+            th Xóa bởi
+            th Hành động    
+        tbody 
+          each blog, index in blogs
+            tr 
+              td 
+                input(type="checkbox" name="id" value=blog.id)
+              td #{objectPagination.limitPage * (objectPagination.currentPage - 1) + index + 1}  
+              td.image 
+                a(
+                  href=`${prefixAdmin}/blogs/detail/${blog.id}`
+                )
+                  img(src=`${blog.thumbnail}` alt=`${blog.title}` )     
+              td 
+                a(
+                  href=`${prefixAdmin}/blogs/detail/${blog.id}`
+                ) #{blog.title} 
+              td 
+                div #{blog.deletedBy}
+                div #{moment(blog.deletedAt).format("DD/MM/YY HH:mm")}
+              td
+                button(
+                  class="btn btn-warning btn-sm"
+                  button-recall
+                  data-id = blog.id
+                ) Thu hồi 
+                button(
+                  class="btn btn-danger btn-sm ml-1"
+                  button-remove 
+                  data-id = blog.id
+                ) Xóa vĩnh viễn
+                
+                
+    if(blogs.length > 4)
+      +pagination(objectPagination)
+
+
+    form(
+        form-remove
+        method="POST"
+        action=""
+        data-path="/admin/blogs/remove"
+    )  
+    form(
+      form-recall 
+      method="POST"
+      action=""
+      data-path="/admin/blogs/recall"
+    )
+    form(
+      form-change-status 
+      method="POST"
+      action=""
+      data-path="/admin/blogs/change-status"
+    )  
+  else 
+    h2 Bạn không có quyền truy cập vào trang này

@@ -1,0 +1,23 @@
+@media (max-width: 1200px) {
+    .sider {
+        transform: translateX(-17.125rem);
+        background-color: aliceblue;
+    }
+    body .main {
+        width: 100%;
+        left: 0;
+        padding: 20px;
+        margin: 0;
+    }
+    .header {
+        width: 100%;
+        left: 0;
+        margin: 0;
+    }
+    
+}
+@media (max-width: 991px) {
+    .box-item .table thead tr th:nth-child(4) {
+
+    }
+}
