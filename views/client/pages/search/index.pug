@@ -1,11 +1,5 @@
 extends ../../layout/default.pug
-include ../../mixins/box-head.pug
-include ../../mixins/list-featured.pug
+include ../../mixins/list-product.pug
 
-block main
-    .container.my-3
-        .row
-            .col-12
-                +box-head("Kết quả tìm kiếm")
-
-        +list-feature(products)
+block main           
+    +list-product(products)

@@ -1,0 +1,35 @@
+extends ../../layout/default.pug
+
+block main
+  .page-checkout
+      if(order)
+        .container 
+          div(class="alert alert-success text-center") Chúc mừng quý khách đặt hàng thành công. Chúng tôi sẽ xử lý đơn hàng trong thời gian sớm nhất
+          .row
+            .col-12 
+              .card.card-info 
+                .card-body 
+                  h5.card-title Thông tin khách hàng
+                  .inner-name Họ tên: <strong>#{order.userInfo.fullName}</strong>
+                  .inner-phone Số điện thoại: <strong>#{order.userInfo.phone}</strong>
+                  .inner-address Địa chỉ: <strong>#{order.userInfo.address}</strong>
+          .row.mt-20
+            .col-lg-7.col-md-6.col-12
+              .card.card-product
+                .card-body 
+                  h3.card-title Giỏ hàng
+                  each item in order.products
+                    .cart-item.py-10.space-5
+                      .cart-img 
+                        img(src=item.thumbnail, alt=item.title)
+                      .cart-main 
+                        h4.inner-title #{item.title}
+                        .inner-quantity Số lượng: <strong>#{item.quantity}</strong> 
+                        .inner-price #{item.totalPrice} đ 
+            .col-lg-5.col-md-6.col-12
+              .card.card-checkout 
+                .card-body 
+                  .cart-head.m-0 
+                    .title-price Tổng
+                    .total-price #{order.totalPrice} đ
+        

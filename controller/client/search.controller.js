@@ -1,4 +1,5 @@
 const Product = require("../../models/product.model");
+const numeral = require("numeral")
 
 // [GET] /search/
 module.exports.index = async (req, res) => {
@@ -10,8 +11,9 @@ module.exports.index = async (req, res) => {
         title: regexKeyword
     })
     
-    for (const item of products) {
-        item.priceNew = (item.price * (100 - item.discountPercentage)/100).toFixed(0);
+    for (const product of products) {
+        product.priceOld = numeral(product.price).format('0,0');
+        product.priceNew = numeral((product.price * (100 - product.discountPercentage) / 100).toFixed(0)).format('0,0');
     }
     res.render("client/pages/search/index", {
         pageTitle: "Kết quả tìm kiếm",

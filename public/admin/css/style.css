@@ -115,7 +115,6 @@ hr .horizontal {
 
 .sider .sider-main ul .active .icon-sider {
     background-color: #CB0C9F;
-
 }
 
 .sider .sider-main ul .active .icon-sider i {
@@ -143,6 +142,38 @@ hr .horizontal {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.sider .sider-main .dropdown button {
+    background: none;
+    border: hidden;
+}
+
+.sider .sider-main .dropdown .dropdown-menu {
+    border: hidden;
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+}
+
+.sider .sider-main .dropdown .dropdown-menu li .icon-sider {
+    background-color: #fff;
+}
+
+.sider .sider-main .dropdown .dropdown-menu li .icon-sider i {
+    color: #3A416F;
+    font-size: 16px;
+}
+.sider .accordion-item {
+    display: flex;
+    flex-direction: column;
+}
+.sider .accordion-item .icon-sider {
+    margin-right: 10px;
+}
+.sider .accordion-item .accordion-button {
+    margin-left: 0;
+}
+.sider .dropdown-item {
+    padding: 10px !important;
 }
 
 /* End Sider */
@@ -236,6 +267,9 @@ body .main {
     border: none;
     color: #fff;
     font-weight: 400;
+}
+.box-item table tr td:nth-child(3) {
+    max-width: 200px;
 }
 
 #form-search {

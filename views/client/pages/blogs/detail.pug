@@ -1,0 +1,17 @@
+extends ../../layout/default.pug 
+block main 
+    .page-blog.my-20.p-20 
+        .container
+            .row 
+                .col-md-8.col-12 
+                    .blog-detail 
+                        h4.title #{blog.title}
+                        span.inner-date #{blog.date}
+                        p.inner-desc #{blog.description}
+                        .inner-img 
+                            img(src=blog.thumbnail, alt=blog.title)
+                        p.inner-content !{blog.content}
+                                
+                include ./blog-new.pug
+                            
+                            

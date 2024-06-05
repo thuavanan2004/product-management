@@ -1,0 +1,12 @@
+.col-md-3.col-12 
+    .blog-left 
+        h4.title Tin mới 
+            each blogN in blogsNew 
+                .blog-item
+                    .blog-img 
+                        a(href=`/blogs/detail/${blogN.slug}`)
+                            img(src=blogN.thumbnail , alt=blogN.title)
+                    .blog-content 
+                        h4.inner-title 
+                            a(href=`/blogs/detail/${blogN.slug}`) #{blogN.title}
+                        span.inner-date #{blogN.date}

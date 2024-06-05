@@ -1,64 +1,67 @@
 const Cart = require("../../models/cart.model");
 const Product = require("../../models/product.model");
+const numeral = require('numeral');
 
 
 // [GET] /cart/
 module.exports.index = async (req, res) => {
-    try{
+    try {
         const cartId = req.cookies.cartId;
         let cart = await Cart.findOne({
             _id: cartId
         })
-       
-        
-       
-        cart.totalPrice = 0 
+
+        cart.totalPrice = 0
         for (const item of cart.products) {
             const infoProduct = await Product.findOne({
                 _id: item.product_id
             }).select("thumbnail title price discountPercentage stock slug");
 
-            infoProduct.priceNew = (infoProduct.price * (100 - infoProduct.discountPercentage)/100).toFixed(0);
+            infoProduct.priceNew = (infoProduct.price * (100 - infoProduct.discountPercentage) / 100).toFixed(0);
+            infoProduct.priceNewFormat = numeral(infoProduct.priceNew).format('0,0');
 
             infoProduct.totalPrice = infoProduct.priceNew * item.quantity;
+            infoProduct.totalPriceFormat = numeral(infoProduct.totalPrice).format('0,0');
 
-            cart.totalPrice +=  infoProduct.totalPrice;
+            cart.totalPrice += infoProduct.totalPrice;
 
             item.infoProduct = infoProduct;
-        } 
-
+        }
+        cart.totalPrice = numeral(cart.totalPrice).format('0,0')
         res.render("client/pages/cart/index", {
             pageTitle: "Giỏ hàng",
             cartDetail: cart
         })
-    }catch {
+    } catch {
         res.redirect("back")
     }
 }
 
 // [POST] /cart/add/:productId
 module.exports.addPost = async (req, res) => {
-    try{
+    try {
         const productId = req.params.productId;
         const cartId = req.cookies.cartId;
         const quantity = parseInt(req.body.quantity)
-        
+
         const cart = await Cart.findOne({
             _id: cartId
         })
-        
+
         const existProductInCart = cart.products.find(item => item.product_id == productId);
 
-        if(existProductInCart){
+        if (existProductInCart) {
             const quantityUpdate = existProductInCart.quantity + quantity;
 
             await Cart.updateOne({
                 _id: cartId,
                 "products.product_id": productId
             }, {
-                $set:  { "products.$.quantity": quantityUpdate }
-            }) 
-        }else {
+                $set: {
+                    "products.$.quantity": quantityUpdate
+                }
+            })
+        } else {
             const objProductInCart = {
                 product_id: productId,
                 quantity: quantity
@@ -66,13 +69,15 @@ module.exports.addPost = async (req, res) => {
             await Cart.updateOne({
                 _id: cartId
             }, {
-                $push: {products: objProductInCart}
+                $push: {
+                    products: objProductInCart
+                }
             })
         }
 
         req.flash("success", "Đã thêm sản phẩm vào giỏ hàng !")
-        
-    }catch {
+
+    } catch {
         req.flash("error", "Thêm sản phẩm vào giỏ hàng không thành công !")
         res.redirect("/");
     }
@@ -81,16 +86,20 @@ module.exports.addPost = async (req, res) => {
 
 // [GET] /cart/delete/:productId
 module.exports.delete = async (req, res) => {
-    try{
+    try {
         const cartId = req.cookies.cartId;
         const productId = req.params.productId
         await Cart.updateOne({
             _id: cartId
         }, {
-            $pull: { products: { product_id: productId } }
+            $pull: {
+                products: {
+                    product_id: productId
+                }
+            }
         })
         req.flash("success", "Đã xóa sản phẩm khỏi giỏ hàng !")
-    }catch{
+    } catch {
         req.flash("error", "Xóa sản phẩm khỏi giỏ hàng thất bại !")
     }
     res.redirect("back")
@@ -106,10 +115,12 @@ module.exports.updateItem = async (req, res) => {
             _id: cartId,
             "products.product_id": productId
         }, {
-            $set: { "products.$.quantity": quantity }
+            $set: {
+                "products.$.quantity": quantity
+            }
         })
         res.redirect("back")
     } catch {
-        
-    } 
+
+    }
 }

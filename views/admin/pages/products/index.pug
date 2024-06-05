@@ -100,6 +100,9 @@ block main
             th STT 
             th Hình ảnh
             th Tiêu đề
+            th Giá
+            th Giảm
+            th Số lượng
             th Vị trí
             th Người tạo
             th Người sửa
@@ -120,6 +123,9 @@ block main
                 a(
                   href=`${prefixAdmin}/products/detail/${item.id}`
                 ) #{item.title} 
+              td #{item.priceFormat}
+              td #{item.discountPercentage}%
+              td #{item.stock}
               td.title 
                 input(
                   name="position"

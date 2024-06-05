@@ -31,10 +31,14 @@ routers.get("/create", productController.create);
 
 routers.post("/create", upload.single('thumbnail'), uploadCloud.uploadSingle, validate.createPost, productController.createPost);
 
-routers.get("/edit/:id", productController.edit); 
+routers.get("/edit/:id", productController.edit);
 
-routers.patch("/edit/:id",upload.single('thumbnail'), uploadCloud.uploadSingle, validate.createPost, productController.editPatch);
+routers.patch("/edit/:id", upload.single('thumbnail'), uploadCloud.uploadSingle, validate.createPost, productController.editPatch);
 
-routers.get("/detail/:id",productController.detail )
+routers.get("/detail/:id", productController.detail);
+
+routers.get("/featured", productController.featured);
+
+routers.get("/new", productController.new);
 
 module.exports = routers;

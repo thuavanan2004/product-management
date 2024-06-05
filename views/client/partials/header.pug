@@ -1,47 +1,76 @@
 include ../mixins/sub-menu.pug
 header.header
-    .container 
-        .row.align-items-center
-            .col-3
-                .inner-logo
-                    a(href="/")
-                        img(src=settingsGeneral.logo, alt="logo") 
-            .col-5
-                form(
-                    action="/search"
-                    method="GET"
-                ) 
-                    div(class="form-group d-flex mb-0")
-                        input(
-                            type="text"
-                            placeholder="Nhập từ khóa..."
-                            class="form-control"
-                            name="keyword"
-                            value=keyword
-                        )
-                        button(
-                            type="submit"
-                            class="btn btn-primary"
-                        ) Tìm
-            .col-4 
-                .inner-menu
-                    ul 
-                        li
-                            a(href="/") Trang chủ 
-                        li(class="sub-menu")
-                            a(href="/products") Sản phẩm
-                            +sub-menu(layoutProductCategory)
-                        li
-                            a(href="/cart") Giỏ hàng
+    .container
+        .menu-wrapper.d-flex
+            .inner-logo    
+                a(href="/")
+                    //- img(src=settingsGeneral.logo, alt="logo") 
+                    img(src="/client/images/logo.png.webp", alt="logo") 
+            ul.inner-main-menu 
+                li
+                    a(href="/") Trang chủ 
+                li(class="sub-menu")
+                    a(href="/products") Sản phẩm
+                    +sub-menu(layoutProductCategory)
+                li
+                    a(href="/blogs") Blog
+                li
+                    a(href="/blogs") Pages
+                li
+                    a(href="/blogs") Về chúng tôi
+            ul.header-right 
+                li.item.item-search.dropdown
+                    span(
+                        class="dropdown-toggle"
+                        id="dropdown-user"           aria-expanded="false"             data-bs-toggle="dropdown"
+                    )
+                        i(class="fa-solid fa-magnifying-glass icon-search")
+                    ul(class="dropdown-menu" aria-labelledby="dropdown-user")
+                        li.dropdown-item 
+                            form(
+                                action="/search"
+                                method="GET"
+                            ) 
+                                div(class="form-group d-flex mb-0")
+                                    input(
+                                        type="text"
+                                        placeholder="Tìm kiếm"
+                                        class="form-control"
+                                        name="keyword"
+                                        value=keyword
+                                    )
+                                    button(
+                                        type="submit"
+                                        class="btn"
+                                    )  
+                                        i(class="fa-solid fa-magnifying-glass")
+                li.dropdown.item.item-user 
+                    button(
+                        class="btn btn-user"
+                        type="button"
+                        class="dropdown-toggle"
+                        id="dropdown-user"           aria-expanded="false"             data-bs-toggle="dropdown"
+                    )   
+                        .icon-user
+                            i(class="fa-solid fa-user")
+                        span Tài khoản
+                    ul(class="dropdown-menu" aria-labelledby="dropdown-user")
                         if(user)
-                            li 
-                                a(href="/user/info") #{user.fullName}
-                            li 
+                            li.dropdown-item 
+                                a(href="/user/info") Thông tin tài khoản
+                            li.dropdown-item 
                                 a(href="/user/logout") Đăng xuất
                         else
-                            li
+                            li.dropdown-item
                                 a(href="/user/login") Đăng nhập
-                            li
+                            li.dropdown-item
                                 a(href="/user/register") Đăng ký
+                li.item.item-cart
+                    a(href="/cart") 
+                        i(class="fa-solid fa-cart-shopping")
+                        span Giỏ hàng
+                    
+                
+                        
                                 
                                     

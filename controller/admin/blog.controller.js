@@ -12,26 +12,26 @@ module.exports.index = async (req, res) => {
     const filterStatus = filterStatusHelper(req);
     const countRecords = await Blog.countDocuments({});
     const objectPagination = paginationHelper(req, countRecords);
-    const sort ={};
-    if(req.query.sortKey && req.query.sortValue){
+    const sort = {};
+    if (req.query.sortKey && req.query.sortValue) {
         const sortKey = req.query.sortKey;
         const sortValue = req.query.sortValue;
         sort[sortKey] = sortValue;
-    }else{
+    } else {
         sort["position"] = "desc";
-    } 
-    if(req.query.keyword){
+    }
+    if (req.query.keyword) {
         const regex = new RegExp(req.query.keyword, "i");
         find.title = regex
     }
-    if(req.query.status){
+    if (req.query.status) {
         find.status = req.query.status;
     }
     const blogs = await Blog.find(find)
-    .select("-content")
-    .limit(objectPagination.limitPage)
-    .skip(objectPagination.skipPage)
-    .sort(sort);;
+        .select("-content")
+        .limit(objectPagination.limitPage)
+        .skip(objectPagination.skipPage)
+        .sort(sort);;
 
     for (const blog of blogs) {
         const createdBy = await Account.findOne({
@@ -43,9 +43,9 @@ module.exports.index = async (req, res) => {
         const deletedBy = await Account.findOne({
             _id: blog.deletedBy
         })
-        blog.createdBy = createdBy?.fullName;
-        blog.updatedBy = updatedBy?.fullName;
-        blog.deletedBy = deletedBy?.fullName;
+        blog.createdBy = createdBy ?.fullName;
+        blog.updatedBy = updatedBy ?.fullName;
+        blog.deletedBy = deletedBy ?.fullName; 
     }
 
     res.render("./admin/pages/blogs/index", {
@@ -66,7 +66,7 @@ module.exports.create = (req, res) => {
 // [POST] /blogs/create
 module.exports.createPost = async (req, res) => {
     const permissions = res.locals.role.permissions;
-    if(!permissions.includes("blogs_create")){
+    if (!permissions.includes("blogs_create")) {
         res.send("Không có quyền truy cập");
         return;
     }
@@ -92,11 +92,11 @@ module.exports.createPost = async (req, res) => {
 // [PATCH] /blogs/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     const permissions = res.locals.role.permissions;
-        if(!permissions.includes("blogs_edit")){
-            res.send("Không có quyền truy cập");
-            return;
-        }
-    try{
+    if (!permissions.includes("blogs_edit")) {
+        res.send("Không có quyền truy cập");
+        return;
+    }
+    try {
         const status = req.params.status;
         const id = req.params.id;
         await Blog.updateOne({
@@ -112,13 +112,42 @@ module.exports.changeStatus = async (req, res) => {
         res.redirect("back");
         return;
     }
-    
+
+}
+// [DELETE] /admin/blogs/changemulti
+module.exports.changeMultiTrash = async (req, res) => {
+    const permissions = res.locals.role.permissions;
+    if (!permissions.includes("blogs_edit")) {
+        res.send("Không có quyền truy cập");
+        return;
+    }
+    try {
+        const type = req.body.type;
+        let ids = req.body.ids;
+        ids = ids.split(", ");
+        switch (type) {
+            case "remove-all":
+                await Blog.deleteMany({
+                    _id: {
+                        $in: ids
+                    }
+                })
+                break;
+            default:
+                break;
+        }
+        req.flash("success", "Xóa sản phẩm thành công !");
+        res.redirect(`back`);
+    } catch {
+        req.flash("error", "Xóa sản phẩm không thành công !");
+        res.redirect(`back`);
+    }
 }
 
 // [PATCH] /blogs/change-multi
 module.exports.changeMulti = async (req, res) => {
     const permissions = res.locals.role.permissions;
-    if(!permissions.includes("blogs_edit")){
+    if (!permissions.includes("blogs_edit")) {
         res.send("Không có quyền truy cập");
         return;
     }
@@ -128,9 +157,11 @@ module.exports.changeMulti = async (req, res) => {
         ids = ids.split(", ");
         switch (type) {
             case "active":
-            case "inactive": 
+            case "inactive":
                 await Blog.updateMany({
-                    _id: {$in: ids}
+                    _id: {
+                        $in: ids
+                    }
                 }, {
                     status: type,
                     updatedBy: res.locals.user.id,
@@ -139,7 +170,9 @@ module.exports.changeMulti = async (req, res) => {
                 break;
             case "delete-all":
                 await Blog.updateMany({
-                    _id: {$in: ids}
+                    _id: {
+                        $in: ids
+                    }
                 }, {
                     deleted: true,
                     updatedBy: res.locals.user.id,
@@ -147,7 +180,7 @@ module.exports.changeMulti = async (req, res) => {
                 })
                 break;
             case "change-position":
-                for(item of ids){
+                for (item of ids) {
                     let [id, position] = item.split("-");
                     position = parseInt(position);
                     await Blog.updateMany({
@@ -159,38 +192,42 @@ module.exports.changeMulti = async (req, res) => {
                     })
                 }
                 break;
-            case "recall-all": 
+            case "recall-all":
                 await Blog.updateMany({
-                    _id: {$in: ids}
+                    _id: {
+                        $in: ids
+                    }
                 }, {
                     deleted: false,
                     updatedBy: res.locals.user.id,
                     updatedAt: new Date()
                 })
-            case "remove-all": 
+            case "remove-all":
                 await Blog.deleteMany({
-                    _id: {$in: ids}
+                    _id: {
+                        $in: ids
+                    }
                 })
             default:
                 break;
         }
         res.redirect("back");
         req.flash("success", "Cập nhật trạng thái sản phẩm thành công!");
-    }catch {
+    } catch {
         res.redirect("back");
         req.flash("error", "Cập nhật trạng thái sản phẩm thất bại!");
     }
-    
+
 }
 
 // [DELETE] /blogs/delete
 module.exports.delete = async (req, res) => {
     const permissions = res.locals.role.permissions;
-    if(!permissions.includes("blogs_delete")){
+    if (!permissions.includes("blogs_delete")) {
         res.send("Không có quyền truy cập");
         return;
     }
-    try{
+    try {
         const id = req.params.id;
         await Blog.updateOne({
             _id: id
@@ -210,7 +247,7 @@ module.exports.delete = async (req, res) => {
 // [GET] /blogs/detail
 module.exports.detail = async (req, res) => {
     const idBlog = req.params.id;
-    try{
+    try {
         const blog = await Blog.findOne({
             _id: idBlog,
             deleted: false
@@ -219,17 +256,17 @@ module.exports.detail = async (req, res) => {
             pageTitle: "Chi tiết bài viết",
             blog: blog
         })
-    }catch {
+    } catch {
         req.flash("error", "Truy cập vào chi tiết bài viết không thành công!")
         res.redirect("back");
     }
-   
+
 }
 
 // [GET] /blogs/edit
 module.exports.edit = async (req, res) => {
     const idBlog = req.params.id;
-    try{
+    try {
         const blog = await Blog.findOne({
             _id: idBlog,
             deleted: false
@@ -238,7 +275,7 @@ module.exports.edit = async (req, res) => {
             pageTitle: "Chỉnh sửa bài viết",
             blog: blog
         })
-    }catch {
+    } catch {
         req.flash("error", "Không thể vào trang chỉnh sửa bài viết!")
         res.redirect("back");
     }
@@ -247,17 +284,17 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /blogs/edit/:id
 module.exports.editPatch = async (req, res) => {
-    const id = req.params.id;  
-    try{
+    const id = req.params.id;
+    try {
         const permissions = res.locals.role.permissions;
-        if(!permissions.includes("blogs_edit")){
+        if (!permissions.includes("blogs_edit")) {
             res.send("Không có quyền truy cập");
             return;
         }
-        if(req.body) {
+        if (req.body) {
             req.body.updatedBy = res.locals.user.id;
         }
-        if(req.body.position) {
+        if (req.body.position) {
             req.body.position = parseInt(req.body.position);
         } else {
             const countProduct = await Blog.countDocuments({});
@@ -280,7 +317,7 @@ module.exports.editPatch = async (req, res) => {
 // [PATCH] /blogs/trash
 module.exports.trash = async (req, res) => {
     const permissions = res.locals.role.permissions;
-    if(!permissions.includes("blogs_edit")){
+    if (!permissions.includes("blogs_edit")) {
         res.send("Không có quyền truy cập");
         return;
     }
@@ -289,22 +326,22 @@ module.exports.trash = async (req, res) => {
     }
     const countRecords = await Blog.countDocuments({});
     const objectPagination = paginationHelper(req, countRecords);
-    
-    if(req.query.keyword){
+
+    if (req.query.keyword) {
         const regex = new RegExp(req.query.keyword, "i");
         find.title = regex
     }
-    
+
     const blogs = await Blog.find(find)
-    .select("-content")
-    .limit(objectPagination.limitPage)
-    .skip(objectPagination.skipPage)
+        .select("-content")
+        .limit(objectPagination.limitPage)
+        .skip(objectPagination.skipPage)
 
     for (const blog of blogs) {
         const deletedBy = await Account.findOne({
             _id: blog.deletedBy
         })
-        blog.deletedBy = deletedBy?.fullName;
+        blog.deletedBy = deletedBy ?.fullName;
     }
 
     res.render("./admin/pages/blogs/trash", {
@@ -319,7 +356,7 @@ module.exports.recall = async (req, res) => {
     const id = req.params.id;
     try {
         const permissions = res.locals.role.permissions;
-        if(!permissions.includes("blogs_edit")){
+        if (!permissions.includes("blogs_edit")) {
             res.send("Không có quyền truy cập");
             return;
         }
@@ -333,7 +370,7 @@ module.exports.recall = async (req, res) => {
         req.flash("success", "Thu hồi bài viết thành công!")
         res.redirect(`${prefixAdmin.prefixAdmin}/blogs`);
 
-    }catch {
+    } catch {
         req.flash("error", "Thu hồi sản phẩm thất bại!")
         res.redirect("back");
     }
@@ -345,7 +382,7 @@ module.exports.remove = async (req, res) => {
     const id = req.params.id;
     try {
         const permissions = res.locals.role.permissions;
-        if(!permissions.includes("blogs_delete")){
+        if (!permissions.includes("blogs_delete")) {
             res.send("Không có quyền truy cập");
             return;
         }

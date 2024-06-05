@@ -1,9 +1,12 @@
-const generateToken = require("../../helpers/generateToke.helper");
 const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password.model");
-const md5 = require("md5")
-const sendEmailHelper = require("../../helpers/sendEmail.helper");
 const Cart = require("../../models/cart.model");
+const md5 = require("md5")
+
+const sendEmailHelper = require("../../helpers/sendEmail.helper");
+const generateHelper = require("../../helpers/generateToke.helper");
+
+
 
 // [GET] /user/register
 module.exports.register = (req, res) => {
@@ -17,18 +20,18 @@ module.exports.registerPost = async (req, res) => {
     const fullName = req.body.fullName;
     const password = req.body.password;
     const email = req.body.email;
-    const tokenUser = generateToken(30);
+    const tokenUser = generateHelper.generateToken(30);
     const existUser = await User.findOne({
         email: email,
         deleted: false
     })
 
-    if(existUser){
+    if (existUser) {
         req.flash("error", "Email đăng ký đã tồn tại!")
         res.redirect("back");
         return;
     }
-    
+
     const userInfo = {
         fullName: fullName,
         email: email,
@@ -40,7 +43,7 @@ module.exports.registerPost = async (req, res) => {
     await user.save();
 
     res.cookie("tokenUser", user.tokenUser);
-    
+
     res.redirect("/");
 }
 
@@ -60,29 +63,29 @@ module.exports.loginPost = async (req, res) => {
         email: email,
         deleted: false
     })
-    if(!user) {
+    if (!user) {
         req.flash("error", "Email không tồn tại!");
         res.redirect("back");
         return;
     }
 
-    if(user.password != md5(password)){
+    if (user.password != md5(password)) {
         req.flash("error", "Mật khẩu không đúng!");
         res.redirect("back");
         return;
     }
 
-    if(user.status != "active") {
+    if (user.status != "active") {
         req.flash("error", "Tài khoản đang bị khóa!");
         res.redirect("back");
         return;
     }
     await Cart.updateOne({
         _id: req.cookies.cartId
-    },{
+    }, {
         user_id: user.id
     })
-    
+
     res.cookie("tokenUser", user.tokenUser);
     req.flash("success", "Đăng nhập thành công !")
     res.redirect("/");
@@ -108,7 +111,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
         email: email,
         deleted: false
     })
-    if(!user) {
+    if (!user) {
         req.flash("error", "Email không tồn tại !");
         res.redirect("back");
         return;
@@ -117,25 +120,25 @@ module.exports.forgotPasswordPost = async (req, res) => {
     const objForgotPassword = {
         email: email,
         otp: generateToken.generateNumber(6),
-        expireAt: Date.now() + 3*60*1000, 
+        expireAt: Date.now() + 3 * 60 * 1000,
     }
     const forgotPassword = new ForgotPassword(objForgotPassword);
     await forgotPassword.save();
-    
+
     const subject = "Lấy lại mật khẩu";
     const text = `Mã OTP xác thực tài khoản của bạn là: ${forgotPassword.otp}. Mã OTP có hiệu lực trong vòng 3 phút. Vui lòng không cung cấp mã OTP này với bất kỳ ai.`;
     sendEmailHelper.sendEmail(email, subject, text);
-  
+
     res.redirect(`/user/password/otp?email=${email}`);
 }
 
 // [GET] /user/password/otp
 module.exports.otpPassword = async (req, res) => {
     const email = req.query.email;
-    
+
     res.render("client/pages/user/otp-password", {
-      pageTitle: "Nhập mã OTP",
-      email: email
+        pageTitle: "Nhập mã OTP",
+        email: email
     });
 };
 // [POST] /user/password/forgot
@@ -146,7 +149,7 @@ module.exports.otpPasswordPost = async (req, res) => {
         email: email,
         otp: otp
     })
-    if(!forgotPassword){
+    if (!forgotPassword) {
         req.flash("error", "Mã OTP không khớp");
         res.redirect("back");
         return;
@@ -154,11 +157,11 @@ module.exports.otpPasswordPost = async (req, res) => {
     const user = await User.findOne({
         email: email
     });
-    
+
     res.cookie("tokenUser", user.tokenUser);
 
     res.redirect("/user/password/reset");
-   
+
 
 }
 
@@ -174,7 +177,7 @@ module.exports.resetPasswordPost = async (req, res) => {
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
     const tokenUser = req.cookies.tokenUser;
-    if(password != confirmPassword) {
+    if (password != confirmPassword) {
         req.flash("error", "Mật khẩu xác nhận không khớp !")
         res.redirect("back");
         return;

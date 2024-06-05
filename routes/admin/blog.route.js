@@ -31,5 +31,7 @@ router.patch("/recall/:id", controller.recall);
 
 router.delete("/remove/:id", controller.remove);
 
+router.delete("/change-multi", controller.changeMultiTrash);
+
 
 module.exports = router;

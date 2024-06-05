@@ -1,0 +1,12 @@
+mixin list-blog(blogs)
+    .blog-area
+        .container.swiper  
+            .swiper-wrapper 
+                each blog in blogs
+                    a(class="blog-item swiper-slide" href=blog.slug)
+                        .inner-image 
+                            img(src=blog.thumbnail , alt=blog.title)
+                        .box-content 
+                            h3.inner-title #{blog.title}
+                            span.inner-createAt #{blog.createdAtFormat}
+                    

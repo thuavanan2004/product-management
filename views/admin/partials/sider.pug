@@ -7,45 +7,71 @@
         ul
             li(dashboard) 
                 .icon-sider
-                    i( class="fa-brands fa-microsoft")
+                    i(class="fa-brands fa-microsoft")
                 a(href=`${prefixAdmin}/dashboard`) Tổng quan
-            if(role.permissions.includes("products_view")) 
-                li(products)
-                    .icon-sider
-                        i(class="fa-solid fa-box-open")
-                    a(href=`${prefixAdmin}/products`) Sản phẩm
-            if(role.permissions.includes("products-category_view"))         
+            
+            if(role.permissions.includes("products_view"))
+                li(products class="accordion-item")
+                    h2.accordion-header(id="headingProducts")
+                        a.accordion-button.collapsed(href="#collapseProducts", role="button", data-bs-toggle="collapse", aria-expanded="false", aria-controls="collapseProducts")
+                            .icon-sider
+                                i(class="fa-solid fa-box-open")
+                            span Sản phẩm
+                    #collapseProducts.accordion-collapse.collapse(aria-labelledby="headingProducts", data-bs-parent=".sider-main")
+                        ul.accordion-body
+                            li(class='dropdown-item')
+                                .icon-sider
+                                    i(class="fa-solid fa-box-open")
+                                a(href=`${prefixAdmin}/products`) Sản phẩm 
+                            li(class='dropdown-item')
+                                .icon-sider
+                                    i(class="fa-solid fa-boxes-stacked")
+                                a(href=`${prefixAdmin}/products/featured`) Nổi bật
+                                
+                            li(class='dropdown-item')
+                                .icon-sider
+                                    i(class="fa-solid fa-boxes-packing")
+                                a(href=`${prefixAdmin}/products/new`) Mới nhất
+                                
+
+            if(role.permissions.includes("products-category_view"))
                 li(products-category) 
                     .icon-sider
                         i(class="fa-solid fa-layer-group")
                     a(href=`${prefixAdmin}/products-category`) Danh mục 
-            if(role.permissions.includes("blogs_view"))         
-                li(products-category) 
+            
+            if(role.permissions.includes("blogs_view"))
+                li(blogs-category) 
                     .icon-sider
                         i(class="fa-solid fa-blog")
                     a(href=`${prefixAdmin}/blogs`) Blog 
-            if(role.permissions.includes("order-management_view")) 
+            
+            if(role.permissions.includes("order-management_view"))
                 li(order-management)
                     .icon-sider
                         i(class="fa-solid fa-cart-shopping") 
                     a(href=`${prefixAdmin}/order-management`) Đơn hàng
-            if(role.permissions.includes("roles_view")) 
+            
+            if(role.permissions.includes("roles_view"))
                 li(roles) 
                     .icon-sider
                         i(class="fa-solid fa-user-gear")
                     a(href=`${prefixAdmin}/roles`) Nhóm quyền
-            if(role.permissions.includes("roles_permissions")) 
+            
+            if(role.permissions.includes("roles_permissions"))
                 li(permissions)
                     .icon-sider
                         i(class="fa-solid fa-building-user") 
                     a(href=`${prefixAdmin}/roles/permissions`) Phân quyền
-            if(role.permissions.includes("accounts_view")) 
+            
+            if(role.permissions.includes("accounts_view"))
                 li(accounts)
                     .icon-sider
                         i(class="fa-solid fa-box-open") 
                     a(href=`${prefixAdmin}/accounts`) Tài khoản
-            if(role.permissions.includes("setting-general_view")) 
-                li(accounts)
+            
+            if(role.permissions.includes("setting-general_view"))
+                li(settings-general)
                     .icon-sider
                         i(class="fa-solid fa-gear")
                     a(href=`${prefixAdmin}/settings/general`) Cài đặt

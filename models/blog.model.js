@@ -6,6 +6,7 @@ mongoose.plugin(slug);
 const blogSchema = new mongoose.Schema({
     title: String,
     content: String,
+    description: String,
     thumbnail: String,
     status: String,
     position: Number,

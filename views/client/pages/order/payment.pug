@@ -1,0 +1,49 @@
+extends ../../layout/default.pug
+
+block main
+  .page-checkout
+      if(order)
+        .container 
+          .row 
+            .col-lg-7.col-md-6.col-12 
+              .card.card-info 
+                .card-body 
+                  h5.card-title Thông tin khách hàng
+                  .inner-name Họ tên: <strong>#{order.userInfo.fullName}</strong>
+                  .inner-phone Số điện thoại: <strong>#{order.userInfo.phone}</strong>
+                  .inner-address Địa chỉ: <strong>#{order.userInfo.address}</strong>
+              .card.card-payment-method 
+                .card-body 
+                  form(action=`/order/payment/${order.id}`, method="POST")
+                    .method-item.active
+                      input(type="radio", id="cashOnDelivery", name="paymentMethod", value="cashOnDelivery", checked class="d-none")
+                      label(for="cashOnDelivery")
+                        .inner-icon
+                          img(src="/client/images/cod.png", alt="cod.png")
+                        .inner-label Thanh toán tiền mặt khi nhận hàng
+                    .method-item
+                      input(type="radio", id="bankTransfer", name="paymentMethod", value="bankTransfer" class="d-none")
+                      label(for="bankTransfer")
+                        .inner-icon
+                          img(src="/client/images/bank.png", alt="cod.png")
+                        .inner-label Chuyển khoản ngân hàng
+                    button.btn.button-checkout(type="submit") Thanh toán ngay
+
+            .col-lg-5.col-md-6.col-12 
+              .card.card-product
+                .card-body 
+                  h3.card-title Giỏ hàng
+                  each item in order.products
+                    .cart-item.py-10.space-5
+                      .cart-img 
+                        img(src=item.thumbnail, alt=item.title)
+                      .cart-main 
+                        h4.inner-title #{item.title}
+                        .inner-quantity Số lượng: <strong>#{item.quantity}</strong> 
+                        .inner-price #{item.totalPrice} đ 
+              .card.card-checkout 
+                .card-body 
+                  .cart-head.m-0 
+                    .title-price Tổng
+                    .total-price #{order.totalPrice} đ
+        

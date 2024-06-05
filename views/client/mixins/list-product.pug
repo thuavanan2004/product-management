@@ -1,0 +1,21 @@
+mixin list-product(products)
+    .product-featured 
+        .container
+            .row 
+                each product in products
+                    .col-lg-3.col-md-6.col-sm-6.my-3
+                        .box-item 
+                            .box-img 
+                                a(href=`/products/detail/${product.slug}` class="inner-img")
+                                    img(src=product.thumbnail , alt=product.title)
+                                .box-actions 
+                                    div 
+                                        a(href=`/products/detail/${product.slug}`) Xem thêm
+                            .box-content
+                                h3.inner-title 
+                                    a(href=`/products/detail/${product.slug}`) #{product.title}
+                                .inner-price 
+                                    span.price-old #{product.priceOld}đ
+                                    span.discount - #{product.discountPercentage}%
+                                .price-new #{product.priceNew}đ
+                
