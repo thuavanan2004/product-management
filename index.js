@@ -20,7 +20,7 @@ database.connect();
 
 const port = process.env.PORT;
 
-app.use(express.static( `${__dirname}/public`));
+app.use(express.static(`${__dirname}/public`));
 app.set('view engine', 'pug');
 app.set('views', `${__dirname}/views`);
 app.use(methodOverride('_method'));
@@ -28,10 +28,16 @@ app.use(methodOverride('_method'));
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 app.locals.moment = moment;
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
 
 app.use(cookieParser('453'));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+    cookie: {
+        maxAge: 60000
+    }
+}));
 app.use(flash());
 
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
@@ -39,7 +45,12 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 routeClient(app);
 routeAdmin(app);
 
+app.get("*", (req, res) => {
+    res.render("client/pages/errors/404", {
+        pageTitle: "404 Not Found",
+    });
+});
+
 app.listen(port, () => {
     console.log(`App đang lắng nghe cổng ${port}`)
 })
-
